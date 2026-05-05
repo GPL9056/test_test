@@ -1,0 +1,31 @@
+stages:
+  - test
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+test:
+  stage: test
+  image: node:18
+  script:
+    - npm install
+    - echo "Test success"
+
+build:
+  stage: build
+  image: node:18
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+
+deploy:
+  stage: deploy
+  script:
+    - mkdir -p /var/www/html/todo-app
+    - cp -r dist/* /var/www/html/todo-app/
